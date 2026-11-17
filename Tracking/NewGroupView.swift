@@ -6,6 +6,7 @@ struct NewGroupView: View {
     @State private var groupName = ""
     @State private var selectedIcon = ""
     @Environment(\.dismiss) var dismiss
+    
 
     let icons = ["gamecontroller", "list.bullet", "star.fill", "house.fill", "heart.fill", "flag.fill"]
 

@@ -2,13 +2,15 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var taskGroups = TaskGroup.sampleData
+    @State private var taskGroups : [TaskGroup] = []
     
     @State private var selectedGroup: TaskGroup?
     
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     
     @State private var isShowingAddGroup = false
+    @Environment(\.scenePhase) private var scenePhase
+    let saveKey = "SavedTaskGroups"
 
     
     var body: some View {
@@ -45,5 +47,39 @@ struct ContentView: View {
                 selectedGroup = newGroup
             }
         }
+        .onAppear{
+            loadData()
+        }
+        .onChange(of: scenePhase) { oldValue, newValue in
+            if newValue == .active {
+                print("App is active")
+            } else if newValue == .inactive {
+                print("Moving to inactive")
+            } else if newValue == .background {
+                print("User is switching attention - SAVE DATA")
+                saveData()
+            }
+            
+        }
+    }
+    
+    func saveData() {
+        // Step A: convert our Array sWIFT -> json
+        if let encodedData = try? JSONEncoder().encode(taskGroups) {
+            // Step B: Save to userDefault
+            UserDefaults.standard.set(encodedData, forKey: saveKey)
+        }
+    }
+    
+    func loadData() {
+        // Step A: Check if there is any content inside the key 'box'
+        if let savedData = UserDefaults.standard.data(forKey: saveKey) {
+            // Step B: Decode the data from json -> array
+            if let decodedData = try? JSONDecoder().decode([TaskGroup].self, from: savedData) {
+                taskGroups = decodedData
+                return
+            }
+        }
+        taskGroups = TaskGroup.sampleData
     }
 }

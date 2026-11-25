@@ -15,7 +15,7 @@ struct NewGroupView: View {
     var body: some View {
 
         NavigationStack {
-
+            
             Form {
 
                 // SECTION 1: NAME of the group

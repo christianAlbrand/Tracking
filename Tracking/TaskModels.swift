@@ -13,6 +13,13 @@ struct TaskGroup: Identifiable, Hashable, Encodable, Decodable{
     var tasks: [TaskItem]
 }
 
+struct Profile: Identifiable, Hashable, Codable {
+    var id = UUID()
+    var name: String
+    var profileImage: String
+    var groups: [TaskGroup]
+}
+
 extension TaskGroup {
     static let sampleData: [TaskGroup] = [
         TaskGroup(title: "School", symbolName: "book", tasks: [
@@ -24,4 +31,12 @@ extension TaskGroup {
             TaskItem(title: "Defeat Ganon")
         ]),
     ]
+}
+
+extension Profile {
+    static let sampleProfile: [Profile] = [
+        Profile(name:"Professor", profileImage: "professorProfile", groups: TaskGroup.sampleData),
+        Profile(name:"Student", profileImage: "studentProfile", groups: []),
+    ]
+    
 }

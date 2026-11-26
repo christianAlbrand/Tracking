@@ -8,6 +8,7 @@
 import XCTest
 
 final class TrackingUITests: XCTestCase {
+    let app = XCUIApplication()
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -21,23 +22,48 @@ final class TrackingUITests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+    
+    func testLaunchEnglish() {
+        app.launchArguments = ["-AppleLanguages", "(en)"]
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // XCUIAutomation Documentation
-        // https://developer.apple.com/documentation/xcuiautomation
+        
+        let header = app.staticTexts["WELCOME TO THE TRACKING APP"]
+        XCTAssertTrue(header.exists, "The english header was not found")
     }
-
-    @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
+    
+    func testLaunchRussian() {
+        app.launchArguments = ["-AppleLanguages", "(ru)"]
+        app.launch()
+        
+        let header = app.staticTexts["ДОБРО ПОЖАЛОВАТЬ В ПРИЛОЖЕНИЕ ДЛЯ ОТСЛЕЖИВАНИЯ"]
+        XCTAssertTrue(header.exists, "The russian header was not found")
+    }
+    
+    func testLaunchArabic() {
+        app.launchArguments = ["-AppleLanguages", "(ar)"]
+        app.launch()
+        
+        let header = app.staticTexts["مرحباً بك في تطبيق التتبع"]
+        XCTAssertTrue(header.exists, "The arabic header was not found")
+    }
+    
+    func testCreateNewGroup() {
+        app.launchArguments = ["-AppleLanguages", "(en)"]
+        app.launch()
+        
+        let profile = app.buttons["SelectProfile_Professor"]
+        XCTAssertTrue(profile.exists)
+        profile.tap()
+        
+        let addButton = app.buttons["AddGroupButton"]
+        XCTAssertTrue(addButton.exists)
+        addButton.tap()
+        
+        let groupName = app.textFields["GroupNameTextField"]
+        groupName.tap()
+        groupName.typeText("Automation Test")
+        
+        app.buttons["SaveButton"].tap()
+        XCTAssertTrue(app.buttons["GroupLink_Automation Test"].exists)
     }
 }

@@ -30,6 +30,7 @@ struct ProfileView: View {
                                 NavigationLink(value: profile) {
                                     ProfileCardView(profile: profile)
                                 }
+                                .accessibilityIdentifier("SelectProfile_\(profile.name)")
                                 .buttonStyle(PlainButtonStyle())
                             }
                         }

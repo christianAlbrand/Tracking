@@ -39,6 +39,7 @@ struct TaskGroupDetailview: View {
                     group.tasks.append(TaskItem(title: ""))
                 }
             }
+            .accessibilityIdentifier("AddTaskButton")
         }
     }
 }

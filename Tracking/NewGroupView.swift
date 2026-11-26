@@ -21,6 +21,7 @@ struct NewGroupView: View {
                 // SECTION 1: NAME of the group
                 Section("Group Name") {
                     TextField("e.g, 'Work', 'Important', 'Budget...'", text: $groupName)
+                        .accessibilityIdentifier("GroupNameTextField")
                 }
 
                 // SECTION 2: Icon Picker
@@ -39,6 +40,7 @@ struct NewGroupView: View {
                                 .onTapGesture {
                                     selectedIcon = icon
                                 }
+                                .accessibilityIdentifier("SelectIconImage_\(icon)")
                         }
                     }
                     .padding(.vertical)
@@ -51,6 +53,8 @@ struct NewGroupView: View {
                     Button("Cancel") {
                         dismiss()
                     }
+                    .accessibilityIdentifier("CancelButton")
+
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
@@ -65,6 +69,7 @@ struct NewGroupView: View {
                         onSave(newGroup)
                         dismiss()
                     }
+                    .accessibilityIdentifier("SaveButton")
                     .disabled(groupName.isEmpty)
                 }
             }
